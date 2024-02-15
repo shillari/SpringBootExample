@@ -26,5 +26,4 @@ public class Person {
     @NotNull
     @JsonProperty("contacts")
     Set<Contact> contacts;
-
 }

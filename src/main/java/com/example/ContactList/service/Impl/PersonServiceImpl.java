@@ -7,22 +7,27 @@ import com.example.ContactList.entity.mapper.PersonMapper;
 import com.example.ContactList.repository.UserRepository;
 import com.example.ContactList.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
 
     private final UserRepository userRepository;
-    private final PersonMapper personMapper;
+
+    @Autowired
+    private PersonMapper personMapper;
 
     @Override
     public ResponseEntity<Person> getPerson(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         // If user not found
-        if (user == null || user.get() == null)
+        if (user == null || !user.isPresent())
             return ResponseEntity
                     .status(HttpStatus.NO_CONTENT).build();
 

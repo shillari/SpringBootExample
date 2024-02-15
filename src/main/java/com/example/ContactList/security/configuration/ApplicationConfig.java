@@ -1,5 +1,6 @@
 package com.example.ContactList.security.configuration;
 
+import com.example.ContactList.entity.mapper.PersonMapper;
 import com.example.ContactList.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +43,11 @@ public class ApplicationConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public PersonMapper personMapper() {
+        return new PersonMapper();
     }
 
 }

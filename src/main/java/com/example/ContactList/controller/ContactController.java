@@ -1,29 +1,31 @@
 package com.example.ContactList.controller;
 
 import com.example.ContactList.entity.Person;
+import com.example.ContactList.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-
-@Validated
+//@Validated
 @RestController
 @RequestMapping("/api/v1/contacts")
 @RequiredArgsConstructor
 public class ContactController {
 
+    @Autowired
+    private PersonService personService;
+
     @GetMapping
-    public ResponseEntity<Person> getPerson(@RequestParam String name) {
-        return ResponseEntity.ok(new Person(1, name, "bobo", "email@email.com", new ArrayList<>()));
+    public ResponseEntity<Person> getPerson(@RequestParam String email) {
+        return personService.getPerson(email);
     }
 
     @PostMapping
-    public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person,
+    public ResponseEntity<Person> createPerson(//@Valid
+                                               @RequestBody Person person,
                                                BindingResult result) {
         if(result.hasErrors()) {
             // Log validation errors
