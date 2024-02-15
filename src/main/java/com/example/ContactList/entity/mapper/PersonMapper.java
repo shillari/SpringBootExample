@@ -4,13 +4,11 @@ import com.example.ContactList.entity.Contact;
 import com.example.ContactList.entity.Person;
 import com.example.ContactList.entity.database.ContactList;
 import com.example.ContactList.entity.database.User;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-@Data
-@RequiredArgsConstructor
+@Component
 public class PersonMapper {
 
     public static Person mapPerson(User user) {
