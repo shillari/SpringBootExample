@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="contact_list")
+@Table(name="contact_list", uniqueConstraints = @UniqueConstraint(columnNames = {"contact, user_id"}))
 public class ContactList {
 
     @Id
