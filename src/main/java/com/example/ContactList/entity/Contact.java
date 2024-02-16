@@ -15,7 +15,7 @@ public class Contact {
 
     @JsonProperty("contact")
     String contact;
-    @EnumContactTypesPattern(enumClass = EnumContactTypes.class, message = "Invalid contact type")
+    //@EnumContactTypesPattern(enumClass = EnumContactTypes.class, message = "Invalid contact type")
     @JsonProperty("type")
     EnumContactTypes type;
     @JsonProperty("contactName")

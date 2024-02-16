@@ -1,5 +1,6 @@
 package com.example.ContactList.entity.database;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +35,8 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "user")
+    @ElementCollection
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ContactList> contactLists;
 
     @Override

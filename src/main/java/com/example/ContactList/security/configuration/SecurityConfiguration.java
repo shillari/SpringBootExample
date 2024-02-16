@@ -5,6 +5,7 @@ import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,15 +26,13 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
            .csrf(AbstractHttpConfigurer::disable)
-           .authorizeHttpRequests()
-           .requestMatchers("/api/v1/auth/**")
-           .permitAll()
-           .anyRequest()
-           .authenticated()
-           .and()
-           .sessionManagement()
-           .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-           .and()
+           .authorizeHttpRequests(rq -> {
+               rq.requestMatchers("/api/v1/auth/**").permitAll();
+               rq.requestMatchers("/api/v1/contacts/**").authenticated();
+           });
+        http
+           .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http
            .authenticationProvider(authenticationProvider)
            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

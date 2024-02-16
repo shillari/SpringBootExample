@@ -1,5 +1,6 @@
 package com.example.ContactList.security.configuration;
 
+import com.example.ContactList.entity.mapper.ContactListMapper;
 import com.example.ContactList.entity.mapper.PersonMapper;
 import com.example.ContactList.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,7 +23,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username)
+        return username -> userRepository.findByEmailWithContactLists(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
@@ -48,6 +48,11 @@ public class ApplicationConfig {
     @Bean
     public PersonMapper personMapper() {
         return new PersonMapper();
+    }
+
+    @Bean
+    public ContactListMapper contactListMapper() {
+        return new ContactListMapper();
     }
 
 }
