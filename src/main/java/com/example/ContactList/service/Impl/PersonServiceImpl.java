@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +36,7 @@ public class PersonServiceImpl implements PersonService {
         if (user == null || !user.isPresent())
             return ResponseEntity
                     .status(HttpStatus.NO_CONTENT).build();
-        Set<ContactList> cl = userRepository.findAllContactLists(email);
-        user.get().setContactLists(cl);
+
         return ResponseEntity.ok(personMapper.mapPerson(user.get()));
     }
 

@@ -37,4 +37,10 @@ public class ContactController {
         return contactService.saveContact(email, contact);
     }
 
+    @DeleteMapping("/contact")
+    public ResponseEntity deleteContact(@RequestParam String email,
+                                        @RequestParam String contact) {
+        return contactService.deleteContact(email, contact);
+    }
+
 }

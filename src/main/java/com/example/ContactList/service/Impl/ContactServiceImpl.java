@@ -9,12 +9,14 @@ import com.example.ContactList.entity.mapper.PersonMapper;
 import com.example.ContactList.repository.ContactListRepository;
 import com.example.ContactList.repository.UserRepository;
 import com.example.ContactList.service.ContactService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,7 +34,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public ResponseEntity<Set<Contact>> getAllContactsByUser(String email) {
-        Set<ContactList> scl = userRepository.findAllContactLists(email);
+        List<ContactList> scl = userRepository.findAllContactLists(email);
         // if there is no contact list for this user
         if (scl == null)
             return ResponseEntity
@@ -43,7 +45,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public ResponseEntity<Contact> saveContact(String email, Contact contact) {
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userRepository.findByEmailWithContactLists(email);
         // If user not found
         if (user == null || !user.isPresent())
             return ResponseEntity
@@ -63,8 +65,20 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ResponseEntity<Contact> deleteContact(Person person, Contact contact) {
-        return null;
+    @Transactional
+    public ResponseEntity deleteContact(String email, String contact) {
+        Optional<User> user = userRepository.findByEmailWithContactLists(email);
+        // If user not found
+        if (user == null || !user.isPresent())
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT).build();
+
+        ContactList cl = contactListRepository.findContactList(user.get(), contact);
+        if (cl != null) {
+            contactListRepository.deleteContactById(cl.getContactId());
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     @Override

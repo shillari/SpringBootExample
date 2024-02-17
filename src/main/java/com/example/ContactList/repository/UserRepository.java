@@ -5,6 +5,7 @@ import com.example.ContactList.entity.database.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -16,6 +17,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmailWithContactLists(String email);
 
     @Query("SELECT u.contactLists from User u where u.email = :email")
-    Set<ContactList> findAllContactLists(String email);
+    List<ContactList> findAllContactLists(String email);
+
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.contactLists WHERE u.email = :email")
+    User retriveAll(String email);
 
 }
