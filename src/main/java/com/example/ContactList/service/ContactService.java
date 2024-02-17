@@ -10,6 +10,6 @@ public interface ContactService {
 
     ResponseEntity<Set<Contact>> getAllContactsByUser(String email);
     ResponseEntity<Contact> saveContact(String email, Contact contact);
-    ResponseEntity<Contact> deleteContact(Person person, Contact contact);
+    ResponseEntity deleteContact(String email, String contact);
     ResponseEntity<Contact> updateContact(Person person, Contact contact);
 }

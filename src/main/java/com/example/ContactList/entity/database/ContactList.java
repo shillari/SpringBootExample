@@ -2,12 +2,10 @@ package com.example.ContactList.entity.database;
 
 import com.example.ContactList.entity.EnumContactTypes;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +18,7 @@ public class ContactList {
     @Column(name = "contact_id")
     private Integer contactId;
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(name="user_id", referencedColumnName = "id", nullable = false)
     private User user;
     @Column(name="contact", unique = true)
     private String contact;

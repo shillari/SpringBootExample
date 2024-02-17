@@ -3,9 +3,10 @@ package com.example.ContactList.repository;
 import com.example.ContactList.entity.database.ContactList;
 import com.example.ContactList.entity.database.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Set;
+import java.util.List;
 
 public interface ContactListRepository extends JpaRepository<ContactList, Integer> {
 
@@ -15,5 +16,9 @@ public interface ContactListRepository extends JpaRepository<ContactList, Intege
 //    @Query("INSERT INTO ContactList (user,contact,type,contactName) VALUES (?1,?2,?3,?4)")
 //    int insertContact(int userId, String contact, String type, String contactName);
 //
-    Set<ContactList> findAllByUser(User user);
+    List<ContactList> findAllByUser(User user);
+
+    @Modifying
+    @Query("DELETE FROM ContactList c WHERE c.contactId = :contactId")
+    void deleteContactById(int contactId);
 }
