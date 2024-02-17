@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="contact_list", uniqueConstraints = @UniqueConstraint(columnNames = {"contact, user_id"}))
+@Table(name="contact_list", uniqueConstraints = @UniqueConstraint(columnNames = {"contact_name, user_id"}))
 public class ContactList {
 
     @Id
@@ -20,10 +20,12 @@ public class ContactList {
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "id", nullable = false)
     private User user;
-    @Column(name="contact", unique = true)
-    private String contact;
-    @Enumerated(EnumType.STRING)
-    private EnumContactTypes type;
-    @Column(name="contact_name")
+    @Column(name="contact_email")
+    private String contactEmail;
+    @Column(name="phone_one")
+    private String phoneOne;
+    @Column(name="phone_two")
+    private String phoneTwo;
+    @Column(name="contact_name", unique = true)
     private String contactName;
 }

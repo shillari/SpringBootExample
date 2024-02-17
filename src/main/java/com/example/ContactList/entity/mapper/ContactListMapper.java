@@ -15,9 +15,10 @@ public class ContactListMapper {
     public static ContactList mapContact(Contact contact, User user) {
         return ContactList.builder()
                 .user(user)
-                .contact(contact.getContact())
-                .type(contact.getType())
                 .contactName(contact.getContactName())
+                .contactEmail(contact.getContactEmail())
+                .phoneOne(contact.getPhoneOne())
+                .phoneTwo(contact.getPhoneTwo())
                 .build();
     }
 
@@ -25,9 +26,10 @@ public class ContactListMapper {
         Set<Contact> contacts = new HashSet<>();
         for (ContactList cl : sContactList) {
             contacts.add(Contact.builder()
-                    .contact(cl.getContact())
-                    .type(cl.getType())
                     .contactName(cl.getContactName())
+                    .contactEmail(cl.getContactEmail())
+                    .phoneOne(cl.getPhoneOne())
+                    .phoneTwo(cl.getPhoneTwo())
                     .build());
         }
         return contacts;
