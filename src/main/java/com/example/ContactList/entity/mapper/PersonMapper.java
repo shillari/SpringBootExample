@@ -29,9 +29,10 @@ public class PersonMapper {
 
         for (ContactList c : user.getContactLists()) {
             contacts.add(Contact.builder()
-                    .contact(c.getContact())
-                    .type(c.getType())
                     .contactName(c.getContactName())
+                    .contactEmail(c.getContactEmail())
+                    .phoneOne(c.getPhoneOne())
+                    .phoneTwo(c.getPhoneTwo())
                     .build());
         }
 

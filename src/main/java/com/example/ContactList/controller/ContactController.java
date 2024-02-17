@@ -39,8 +39,8 @@ public class ContactController {
 
     @DeleteMapping("/contact")
     public ResponseEntity deleteContact(@RequestParam String email,
-                                        @RequestParam String contact) {
-        return contactService.deleteContact(email, contact);
+                                        @RequestParam String contactname) {
+        return contactService.deleteContact(email, contactname);
     }
 
 }

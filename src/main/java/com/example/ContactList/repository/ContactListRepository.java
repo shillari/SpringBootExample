@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface ContactListRepository extends JpaRepository<ContactList, Integer> {
 
-    @Query("SELECT c FROM ContactList c WHERE c.user = ?1 AND c.contact = ?2")
-    ContactList findContactList(User user, String contact);
+    @Query("SELECT c FROM ContactList c WHERE c.user = ?1 AND c.contactName = ?2")
+    ContactList findContactList(User user, String contactName);
 //
 //    @Query("INSERT INTO ContactList (user,contact,type,contactName) VALUES (?1,?2,?3,?4)")
 //    int insertContact(int userId, String contact, String type, String contactName);

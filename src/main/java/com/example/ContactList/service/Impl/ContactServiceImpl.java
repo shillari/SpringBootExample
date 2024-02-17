@@ -55,7 +55,7 @@ public class ContactServiceImpl implements ContactService {
         ContactList cl = contactListMapper.mapContact(contact, user.get());
 
         // Check if already exists this contact to this user
-        if (contactListRepository.findContactList(user.get(), cl.getContact()) != null) {
+        if (contactListRepository.findContactList(user.get(), cl.getContactName()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
@@ -66,14 +66,14 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     @Transactional
-    public ResponseEntity deleteContact(String email, String contact) {
+    public ResponseEntity deleteContact(String email, String contactName) {
         Optional<User> user = userRepository.findByEmailWithContactLists(email);
         // If user not found
         if (user == null || !user.isPresent())
             return ResponseEntity
                     .status(HttpStatus.NO_CONTENT).build();
 
-        ContactList cl = contactListRepository.findContactList(user.get(), contact);
+        ContactList cl = contactListRepository.findContactList(user.get(), contactName);
         if (cl != null) {
             contactListRepository.deleteContactById(cl.getContactId());
         }

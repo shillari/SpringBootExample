@@ -1,11 +1,12 @@
 package com.example.ContactList.entity;
 
-import com.example.ContactList.validator.EnumContactTypesPattern;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -13,12 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Contact {
 
-    @JsonProperty("contact")
-    String contact;
-    //@EnumContactTypesPattern(enumClass = EnumContactTypes.class, message = "Invalid contact type")
-    @JsonProperty("type")
-    EnumContactTypes type;
+    @NotNull
     @JsonProperty("contactName")
     String contactName;
+    @JsonProperty("contactEmail")
+    String contactEmail;
+    @JsonProperty("phoneOne")
+    String phoneOne;
+    @JsonProperty("phoneTwo")
+    String phoneTwo;
 
 }
