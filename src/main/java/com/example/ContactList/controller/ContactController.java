@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/contacts")
@@ -27,7 +27,7 @@ public class ContactController {
     }
 
     @GetMapping
-    public ResponseEntity<Set<Contact>> getAllContactsByUser(@RequestParam String email) {
+    public ResponseEntity<List<Contact>> getAllContactsByUser(@RequestParam String email) {
         return contactService.getAllContactsByUser(email);
     }
 
@@ -39,8 +39,20 @@ public class ContactController {
 
     @DeleteMapping("/contact")
     public ResponseEntity deleteContact(@RequestParam String email,
-                                        @RequestParam String contactname) {
-        return contactService.deleteContact(email, contactname);
+                                        @RequestParam int contactId) {
+        return contactService.deleteContact(email, contactId);
+    }
+
+    @GetMapping("/contact")
+    public ResponseEntity<Contact> getContact(@RequestParam String email,
+                                              @RequestParam int contactId) {
+        return contactService.getContact(email, contactId);
+    }
+
+    @PutMapping("/contact")
+    public ResponseEntity<Contact> updateContact(@RequestParam String email,
+                                                 @RequestBody Contact contact) {
+        return contactService.updateContact(email, contact);
     }
 
 }
