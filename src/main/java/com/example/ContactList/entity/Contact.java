@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Contact {
 
+    @JsonProperty("contactId")
+    int contactId;
     @NotNull
     @JsonProperty("contactName")
     String contactName;

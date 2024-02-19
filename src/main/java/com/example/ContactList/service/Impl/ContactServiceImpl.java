@@ -33,7 +33,7 @@ public class ContactServiceImpl implements ContactService {
     private ContactListMapper contactListMapper;
 
     @Override
-    public ResponseEntity<Set<Contact>> getAllContactsByUser(String email) {
+    public ResponseEntity<List<Contact>> getAllContactsByUser(String email) {
         List<ContactList> scl = userRepository.findAllContactLists(email);
         // if there is no contact list for this user
         if (scl == null)
@@ -60,20 +60,20 @@ public class ContactServiceImpl implements ContactService {
         }
 
         contactListRepository.save(cl);
-
+        contact.setContactId(cl.getContactId());
         return ResponseEntity.ok(contact);
     }
 
     @Override
     @Transactional
-    public ResponseEntity deleteContact(String email, String contactName) {
+    public ResponseEntity deleteContact(String email, int contactId) {
         Optional<User> user = userRepository.findByEmailWithContactLists(email);
         // If user not found
         if (user == null || !user.isPresent())
             return ResponseEntity
                     .status(HttpStatus.NO_CONTENT).build();
 
-        ContactList cl = contactListRepository.findContactList(user.get(), contactName);
+        ContactList cl = contactListRepository.findContactListById(user.get(), contactId);
         if (cl != null) {
             contactListRepository.deleteContactById(cl.getContactId());
         }
@@ -82,7 +82,36 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ResponseEntity<Contact> updateContact(Person person, Contact contact) {
-        return null;
+    @Transactional
+    public ResponseEntity<Contact> updateContact(String email, Contact contact) {
+        Optional<User> user = userRepository.findByEmailWithContactLists(email);
+        // If user not found
+        if (user == null || !user.isPresent())
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT).build();
+
+        ContactList cl = contactListRepository.findContactListById(user.get(), contact.getContactId());
+        if (cl != null) {
+            cl = contactListMapper.mapContact(contact, user.get());
+            contactListRepository.save(cl);
+        }
+
+        return ResponseEntity.ok(contact);
+    }
+
+    @Override
+    public ResponseEntity<Contact> getContact(String email, int contactId) {
+        Optional<User> user = userRepository.findByEmailWithContactLists(email);
+        // If user not found
+        if (user == null || !user.isPresent())
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT).build();
+
+        ContactList cl = contactListRepository.findContactListById(user.get(), contactId);
+        if (cl == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return ResponseEntity.ok(contactListMapper.mapUContact(cl));
     }
 }

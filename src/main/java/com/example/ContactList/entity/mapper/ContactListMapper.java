@@ -5,6 +5,7 @@ import com.example.ContactList.entity.database.ContactList;
 import com.example.ContactList.entity.database.User;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,19 +20,31 @@ public class ContactListMapper {
                 .contactEmail(contact.getContactEmail())
                 .phoneOne(contact.getPhoneOne())
                 .phoneTwo(contact.getPhoneTwo())
+                .contactId(contact.getContactId())
                 .build();
     }
 
-    public static Set<Contact> mapAllContacts(List<ContactList> sContactList) {
-        Set<Contact> contacts = new HashSet<>();
+    public static List<Contact> mapAllContacts(List<ContactList> sContactList) {
+        List<Contact> contacts = new ArrayList<>();
         for (ContactList cl : sContactList) {
             contacts.add(Contact.builder()
                     .contactName(cl.getContactName())
                     .contactEmail(cl.getContactEmail())
                     .phoneOne(cl.getPhoneOne())
                     .phoneTwo(cl.getPhoneTwo())
+                    .contactId(cl.getContactId())
                     .build());
         }
         return contacts;
+    }
+
+    public static Contact mapUContact(ContactList cl) {
+        return Contact.builder()
+                .contactName(cl.getContactName())
+                .contactEmail(cl.getContactEmail())
+                .phoneOne(cl.getPhoneOne())
+                .phoneTwo(cl.getPhoneTwo())
+                .contactId(cl.getContactId())
+                .build();
     }
 }

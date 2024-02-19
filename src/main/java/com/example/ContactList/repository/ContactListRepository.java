@@ -12,7 +12,10 @@ public interface ContactListRepository extends JpaRepository<ContactList, Intege
 
     @Query("SELECT c FROM ContactList c WHERE c.user = ?1 AND c.contactName = ?2")
     ContactList findContactList(User user, String contactName);
-//
+
+    @Query("SELECT c FROM ContactList c WHERE c.user = ?1 AND c.contactId = ?2")
+    ContactList findContactListById(User user, int contactId);
+
 //    @Query("INSERT INTO ContactList (user,contact,type,contactName) VALUES (?1,?2,?3,?4)")
 //    int insertContact(int userId, String contact, String type, String contactName);
 //
