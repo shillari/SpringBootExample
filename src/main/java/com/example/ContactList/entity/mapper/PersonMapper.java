@@ -22,10 +22,10 @@ public class PersonMapper {
                 .build();
     }
 
-    public static Set<Contact> mapContacts(User user) {
-        Set<Contact> contacts = new HashSet<>();
+    public static List<Contact> mapContacts(User user) {
+        List<Contact> contacts = new ArrayList<>();
         if(user.getContactLists() == null)
-            return new HashSet<>();
+            return new ArrayList<>();
 
         for (ContactList c : user.getContactLists()) {
             contacts.add(Contact.builder()

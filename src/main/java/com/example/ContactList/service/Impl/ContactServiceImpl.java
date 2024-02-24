@@ -51,6 +51,9 @@ public class ContactServiceImpl implements ContactService {
             return ResponseEntity
                     .status(HttpStatus.NO_CONTENT).build();
 
+        if(contact == null || (contact.getContactName() == null || contact.getContactName().isEmpty()))
+            return ResponseEntity.badRequest().build();
+
         // Map entity to DTO
         ContactList cl = contactListMapper.mapContact(contact, user.get());
 
